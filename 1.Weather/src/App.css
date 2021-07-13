@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+}
+
+.wrapper {
+  display: inline-block;
+  border: 1px solid black;
+  margin: 200px 5px 5px 5px;
+  width: 100px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+.images {
+  width: 50px;
+  background-color: aqua;
+}
