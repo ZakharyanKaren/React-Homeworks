@@ -1,0 +1,21 @@
+.wrapper {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 70px;
+}
+
+.heading {
+    text-align: center;
+}
+
+.dayOfWeek {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    box-shadow: 0 0 100px yellow;
+    border-radius: 50%;
+    width: 157px;
+    padding: 10px;
+}
