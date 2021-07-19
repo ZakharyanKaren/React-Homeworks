@@ -1,0 +1,48 @@
+.form-wrapper {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gender-group {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.gender-group p {
+    margin: 0 0 10px 0;
+}
+
+.input-group {
+}
+
+.input-group p {
+    height: 25px;
+    margin: 5px 0;
+}
+
+.input {
+    width: 250px;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #00bbff;
+    outline: none;
+}
+
+.submit-btn {
+    padding: 15px 0;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: inherit;
+    border: 1px solid #00bbff;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    background-color: #00bbff;
+    transition: 0.3s;
+}

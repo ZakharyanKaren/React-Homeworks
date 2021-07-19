@@ -1,0 +1,9 @@
+.decrease, .reset {
+    margin-right: 10px;
+}
+
+.maxVal, .minVal, .step {
+    width: 40px;
+    margin: 0 10px;
+    outline: none;
+}
