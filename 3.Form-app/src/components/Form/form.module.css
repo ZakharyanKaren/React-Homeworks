@@ -1,27 +1,21 @@
-.form-wrapper {
+.formWrapper {
     margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.gender-group {
+.genderGroup {
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: 20px;
     font-size: 20px;
 }
 
-.gender-group p {
+.genderGroup p {
     margin: 0 0 10px 0;
 }
 
-.input-group {
-}
-
-.input-group p {
-    height: 25px;
-    margin: 5px 0;
+.inputGroup {
 }
 
 .input {
@@ -32,7 +26,7 @@
     outline: none;
 }
 
-.submit-btn {
+.submitBtn {
     padding: 15px 0;
     width: 100%;
     cursor: pointer;
@@ -42,7 +36,13 @@
     margin-top: 20px;
 }
 
-.submit-btn:hover {
+.submitBtn:hover {
     background-color: #00bbff;
     transition: 0.3s;
+}
+
+.validationStyle {
+    color: red;
+    height: 25px;
+    margin: 5px 0;
 }
