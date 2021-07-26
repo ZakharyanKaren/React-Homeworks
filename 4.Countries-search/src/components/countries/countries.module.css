@@ -10,12 +10,13 @@ p {
 }
 
 .countryInput {
-    width: 300px;
+  width: 300px;
   padding: 5px 15px;
   outline: none;
 }
 
 .container {
+  display: none;
   width: 330px;
   overflow: auto;
   height: 70vh;
