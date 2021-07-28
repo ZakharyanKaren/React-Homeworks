@@ -2,16 +2,13 @@ import React from 'react';
 import Task from '../task/Task';
 
 export default class TaskSection extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
-      <div>
-        {this.props.allTasks.map((task) => {
-          return <Task value={task} />;
+      <ul>
+        {this.props.allTasks.map((task, index) => {
+          return <Task key={`task${index}`} taskIndex={index} value={task} deleteTask={this.props.deleteTask} />;
         })}
-      </div>
+      </ul>
     );
   }
 }

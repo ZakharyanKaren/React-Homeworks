@@ -1,5 +1,5 @@
 import React from 'react';
-import InputField from '../inputField/InputField';
+import Form from '../form/Form';
 import TaskSection from '../taskSection/TaskSection';
 
 class Todo extends React.Component {
@@ -7,41 +7,47 @@ class Todo extends React.Component {
     super(props);
 
     this.state = {
-      currentTask: '',
+      inputValue: '',
       allTasks: [],
     };
 
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
+    this.createTask = this.createTask.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
   }
 
-  onInputChange(e) {
-    this.setState({
-      currentTask: e.target.value,
-    });
-  }
-
-  onKeyUp(e) {
-    if (e.keyCode === 13) {
-      const newTask = this.state.currentTask;
-
-      this.setState((prevState) => ({
-        currentTask: '',
-        allTasks: [...prevState.allTasks, newTask],
-      }));
+  createTask(e) {
+    e.preventDefault();
+    const value = e.target[0].value;
+    if(value === '') {
+      return false;
     }
+    this.setState((prevState) => ({
+      allTasks: [value, ...prevState.allTasks],
+      inputValue: '',
+    }));
+  }
+
+  handleChange(e) {
+    this.setState({
+        inputValue: e.target.value,
+    })
+  }
+
+  deleteTask(taskIndex) {
+    let spliced = this.state.allTasks;
+    spliced.splice(taskIndex, 1);
+
+    this.setState({
+      allTasks: spliced,
+    })
   }
 
   render() {
-    console.log(this.state.allTasks);
     return (
       <div>
-        <InputField
-          onInputChange={this.onInputChange}
-          onKeyUp={this.onKeyUp}
-          value={this.state.currentTask}
-        />
-        <TaskSection allTasks={this.state.allTasks} />
+        <Form formSubmitHandler={this.createTask} inputValueChange={this.handleChange} inputValue={this.state.inputValue} />
+        <TaskSection allTasks={this.state.allTasks} deleteTask={this.deleteTask} />
       </div>
     );
   }
