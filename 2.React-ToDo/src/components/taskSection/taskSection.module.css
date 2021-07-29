@@ -1,0 +1,13 @@
+.listItems {
+    width: 465px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.listItems li {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30px;
+    font-size: 22px;
+}

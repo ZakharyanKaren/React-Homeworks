@@ -1,0 +1,30 @@
+.form {
+    display: flex;
+    justify-content: center;
+}
+
+.input {
+  width: 350px;
+  font-size: 22px;
+  outline: none;
+  padding: 10px;
+  padding-left: 30px;
+  background-color: #48b943;
+  border: none;
+  color: #d8d8d8;
+}
+
+.button {
+    height: 45px;
+    padding: 0 10px;
+    font-size: 18px;
+    background-color: #004152;
+    color: #d8d8d8;
+    box-shadow: 0px 1px #004152;
+    cursor: pointer;
+    border: none;
+}
+
+.button:active {
+    transform: translateY(1px);
+}
