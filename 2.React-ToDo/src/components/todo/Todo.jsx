@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from '../form/Form';
 import TaskSection from '../taskSection/TaskSection';
-
+import styles from './todo.module.css';
 class Todo extends React.Component {
   constructor(props) {
     super(props);
@@ -16,16 +16,18 @@ class Todo extends React.Component {
     this.deleteTask = this.deleteTask.bind(this);
     this.editTask = this.editTask.bind(this);
     this.saveTask = this.saveTask.bind(this);
+    this.onEditChange = this.onEditChange.bind(this);
+    this.completedToggle = this.completedToggle.bind(this);
   }
 
   createTask(e) {
     e.preventDefault();
-    const value = e.target[0].value;
+    const value = this.state.inputValue;
     if(value === '') {
       return false;
     }
     this.setState((prevState) => ({
-      allTasks: [{value, isEdit: 'false'}, ...prevState.allTasks],
+      allTasks: [{title: value, isEdit: false, isActive: true, isCompleted: false}, ...prevState.allTasks],
       inputValue: '',
     }));
   }
@@ -45,30 +47,42 @@ class Todo extends React.Component {
     })
   }
 
+  onEditChange(e, taskIndex) {
+    let allTasks = [...this.state.allTasks];
+    allTasks[taskIndex].title = e.target.value;
+    this.setState({allTasks})    
+  }
+
   editTask(taskIndex) {
     let allTasks = [...this.state.allTasks];
+    allTasks.forEach(task => {
+      task.isEdit = false;
+    })
     let task = {...allTasks[taskIndex]};
-    task.isEdit = 'true';
+    task.isEdit = true;
     allTasks[taskIndex] = task;
 
     this.setState({allTasks})
   }
 
-  saveTask(taskIndex, currentTaskValue) {
+  saveTask(taskIndex) {
     let allTasks = [...this.state.allTasks];
-    let task = {...allTasks[taskIndex]};
-    task.isEdit = 'false';
-    task.value = currentTaskValue;
-    allTasks[taskIndex] = task;
+    allTasks[taskIndex].isEdit = false;
+    this.setState({allTasks});
+  }
 
-    this.setState({allTasks})
+  completedToggle(taskIndex) {
+    let allTasks = [...this.state.allTasks];
+    allTasks[taskIndex].isActive = !allTasks[taskIndex].isActive;
+    allTasks[taskIndex].isCompleted = !allTasks[taskIndex].isCompleted;
+    this.setState({allTasks});
   }
 
   render() {
     return (
-      <div>
+      <div className={styles.todo}>
         <Form formSubmitHandler={this.createTask} inputValueChange={this.handleChange} inputValue={this.state.inputValue} />
-        <TaskSection allTasks={this.state.allTasks} deleteTask={this.deleteTask} editTask={this.editTask} saveTask={this.saveTask} />
+        <TaskSection allTasks={this.state.allTasks} deleteTask={this.deleteTask} editTask={this.editTask} saveTask={this.saveTask} onEditChange={this.onEditChange} filterTasks={this.filterTasks} completedToggle={this.completedToggle} />
       </div>
     );
   }

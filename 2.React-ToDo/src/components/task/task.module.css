@@ -1,3 +1,42 @@
 .buttonSection {
-    float: right;
+    display: flex;
+}
+
+.taskSection {
+    width: 83%;
+}
+
+.task {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 30px;
+    font-size: 22px;
+    margin-left: 15px;
+    padding: 10px 0px 10px 20px;
+}
+
+.task button {
+    border: none;
+    background-color: inherit;
+    margin-left: 5px;
+    cursor: pointer;
+    padding: 0 7px;
+}
+
+.removeIcon {
+    color: red;
+}
+
+.input {
+    width: 100%;
+    padding: 0;
+    background-color: inherit;
+    font-size: 22px;
+    border: none;
+    outline: none;
+}
+
+.addLine {
+    text-decoration: line-through;
 }

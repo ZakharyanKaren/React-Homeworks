@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
+
 body {
-  background-color: #dadada;
+  background-color: #ffffff;
 }
 .App {
-  text-align: center;
+  width: 500px;
   margin: 120px auto 0;
 }

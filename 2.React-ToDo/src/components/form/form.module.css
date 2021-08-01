@@ -4,7 +4,7 @@
 }
 
 .input {
-  width: 350px;
+  width: 385px;
   font-size: 22px;
   outline: none;
   padding: 10px;
@@ -15,7 +15,7 @@
 }
 
 .button {
-    height: 45px;
+    height: 49px;
     padding: 0 10px;
     font-size: 18px;
     background-color: #004152;

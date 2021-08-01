@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from './form.module.css'
+import styles from './form.module.css';
+import PropTypes from 'prop-types';
 export default class Form extends React.Component {
     render() {
       return (
@@ -11,4 +12,10 @@ export default class Form extends React.Component {
           </div>
         );
     }
+}
+
+Form.propTypes = {
+  formSubmitHandler: PropTypes.func,
+  inputValueChange: PropTypes.func,
+  inputValue: PropTypes.string,
 }
