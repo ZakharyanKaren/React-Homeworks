@@ -22,7 +22,9 @@ class Todo extends React.Component {
 
   componentDidMount() {
     this.setState({
-      allTasks: JSON.parse(localStorage.getItem('tasks')),
+      allTasks: JSON.parse(localStorage.getItem('tasks'))
+        ? JSON.parse(localStorage.getItem('tasks'))
+        : [],
     });
   }
 
