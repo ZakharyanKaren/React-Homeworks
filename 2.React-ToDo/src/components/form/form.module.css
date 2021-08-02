@@ -28,3 +28,9 @@
 .button:active {
     transform: translateY(1px);
 }
+
+@media screen and (max-width: 500px) {
+    .input {
+      width: 183px;
+    }
+  }

@@ -7,3 +7,9 @@ body {
   width: 500px;
   margin: 120px auto 0;
 }
+
+@media screen and (max-width: 500px) {
+  .App {
+    width: 300px;
+  }
+}
