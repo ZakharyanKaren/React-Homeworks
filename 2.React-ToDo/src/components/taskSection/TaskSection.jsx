@@ -69,6 +69,7 @@ export default class TaskSection extends React.Component {
                 />
               );
             }
+            return '';
           })}
         </ul>
         <div className={styles.filterSection}>
