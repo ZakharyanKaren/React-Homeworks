@@ -1,0 +1,2 @@
+1. Header with 3buttons home, create post, login. all buttons must be a link with correct urls.
+2. Create components for each route
