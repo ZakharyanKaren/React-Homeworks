@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './navbar.module.css';
-
+import Button from '@material-ui/core/Button';
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -13,15 +13,15 @@ class Navbar extends React.Component {
     return (
       <header className={styles.header}>
         <div className={styles.div}>
-          <h2>
-            <Link>Blog</Link>
-          </h2>
-          <span>
-            <Link to="/posts">Create post</Link>
-          </span>
-          <span className={styles.auth}>
-            <Link to="/auth">Log In</Link>
-          </span>
+          <Link to='/'>
+            <h2>Blog</h2>
+          </Link>
+          <Link to="/posts">
+            <span>Create post</span>
+          </Link>
+          <Link to='/auth' className={styles.auth}>
+            <Button color="primary">Log In</Button>
+          </Link>
         </div>
       </header>
     );
