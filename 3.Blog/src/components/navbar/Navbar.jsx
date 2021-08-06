@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './navbar.module.css';
 import Button from '@material-ui/core/Button';
+
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
