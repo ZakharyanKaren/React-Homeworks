@@ -9,7 +9,13 @@ p {
 
 .div {
   display: flex;
-  margin: 0 20px;
+  padding: 0 20px;
+  align-items: center;
+  height: 60px;
+}
+
+.createPost {
+  margin-left: 50px;
 }
 
 .auth {

@@ -16,10 +16,9 @@ class Blog extends React.Component {
     return (
       <Router>
         <Navbar />
-
         <Switch>
           <Route path="/posts" component={Posts} />
-          <Route path="/authentication" component={Authentication} />
+          <Route path="/auth" component={Authentication} />
         </Switch>
       </Router>
     );

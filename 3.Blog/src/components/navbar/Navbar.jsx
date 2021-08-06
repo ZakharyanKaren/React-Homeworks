@@ -17,7 +17,7 @@ class Navbar extends React.Component {
             <h2>Blog</h2>
           </Link>
           <Link to="/posts">
-            <span>Create post</span>
+            <span color="primary">Create post</span>
           </Link>
           <Link to='/auth' className={styles.auth}>
             <Button color="primary">Log In</Button>

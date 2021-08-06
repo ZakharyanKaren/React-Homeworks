@@ -1,6 +1,6 @@
 import React from 'react';
+import styles from './authentication.module.css';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import styles from './navbar.module.css';
 
 class Authentication extends React.Component {
   constructor(props) {
@@ -10,7 +10,11 @@ class Authentication extends React.Component {
   }
 
   render() {
-    return <p>AUTHENTICATION</p>;
+    return (
+      <div className={styles.wrapper}>
+        <h1 className={styles.headerText}>Log In</h1>
+      </div>
+    )
   }
 }
 
