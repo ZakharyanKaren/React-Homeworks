@@ -5,3 +5,17 @@
 .headerText {
     margin-top: 60px;
 }
+
+.formWrapper {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.aaa {
+  margin-top: 50px;
+}
