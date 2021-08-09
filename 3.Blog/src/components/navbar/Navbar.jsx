@@ -11,17 +11,28 @@ class Navbar extends React.Component {
   }
 
   render() {
+    const logInText = this.props.isLoggedIn ? 'LOG OUT' : 'LOG IN';
     return (
       <header className={styles.header}>
         <div className={styles.div}>
-          <Link to='/'>
+          <Link to="/">
             <h2>Blog</h2>
           </Link>
-          <Link to="/posts">
-            <span color="primary">Create post</span>
+          <Link to={this.props.isLoggedIn ? '/posts' : '/auth'} className={styles.createPostLink}>
+            <span color="primary" className={styles.createPost}>
+              Create post
+            </span>
           </Link>
-          <Link to='/auth' className={styles.auth}>
-            <Button type="button" variant="contained" color='primary' className={styles.btn}>Log in</Button>
+          <Link to="/auth" className={styles.auth}>
+            <Button
+              onClick={this.props.logInBtn}
+              type="button"
+              variant="contained"
+              color="primary"
+              className={styles.btn}
+            >
+              {logInText}
+            </Button>
           </Link>
         </div>
       </header>

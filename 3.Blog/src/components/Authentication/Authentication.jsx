@@ -27,17 +27,33 @@ class Authentication extends React.Component {
         <h1 className={styles.headerText}>Log In</h1>
 
         <div className={styles.formWrapper}>
-        <form onSubmit={this.props.formSubmitHandler} className={styles.form}>
-          <TextField onChange={this.handleChange} margin='normal' name='login' label="Name" value={this.state.login} type="text" />
-          <TextField onChange={this.handleChange} margin='normal' name='pass' label="Password" value={this.state.pass} type="password" />
+          <form onSubmit={this.props.formSubmitHandler} className={styles.form}>
+            <TextField
+              onChange={this.handleChange}
+              margin="normal"
+              name="login"
+              label="Name"
+              value={this.state.login}
+              type="text"
+            />
+            <TextField
+              onChange={this.handleChange}
+              margin="normal"
+              name="pass"
+              label="Password"
+              value={this.state.pass}
+              type="password"
+            />
 
-          <Button type="submit" variant="contained" color='primary'>
-            Log in
-          </Button>
-        </form>
+            <div className={styles.btnWrapper}>
+              <Button type="submit" variant="contained" color="primary" className={styles.btn}>
+                Log in
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
-      </div>
-    )
+    );
   }
 }
 

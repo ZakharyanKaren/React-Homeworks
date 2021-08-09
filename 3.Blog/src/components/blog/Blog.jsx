@@ -1,53 +1,51 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import styles from './blog.module.css';
 // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import styles from './blog.module.css';
 
 class Blog extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-        posts: localStorage.getItem('posts')
-    };
-  }
-
   render() {
-      let postsJson = this.state.posts;
-      let posts = JSON.parse(postsJson);
+    const posts = JSON.parse(localStorage.getItem('posts'));
     return (
-        <div>
-            { posts?.length
-                ?  <div>
-                    <h1>POSTS:</h1>
-                        { posts.map(post => {
-                            return (
-                            <div>
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>{post.title[0]}</div>
-                                        </div>
-                                        <div>
-                                            <p>{post.title}</p>
-                                            <p>{post.date}</p>
-                                        </div>
-                                    </div>
-                                    <div>{post.content}</div>
-                                    <div><Link to='/auth'>LEARN MORE</Link></div>
-                                </div>
-                            </div>
-                            )
-                        })
-                        }
-                </div>
-                : <>
-                    <h2>There is no post</h2>
-                    <h1><Link to="/auth">LOG IN</Link> and be our first story teller.</h1>
-                </>
-            }
-        </div>
-            );
+      <div className={styles.blogWrapper}>
+        {posts?.length ? (
+          <div>
+            <h1>POSTS:</h1>
+            <div className={styles.postsWrapper}>
+              {posts.map((post) => {
+                return (
+                  <div className={styles.postWrapper}>
+                    <div>
+                      <div>
+                        <p>{post.title}</p>
+                      </div>
+                      <div>{post.description}</div>
+                      <div>
+                        <Link to="/auth">LEARN MORE</Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : this.props.isLoggedIn ? (
+          <>
+            <h2 className={styles.h2}>There is no post on web-site.</h2>
+            <h1 className={styles.h1}>
+              You've logged in, <Link to="/posts">share your story!</Link>
+            </h1>
+          </>
+        ) : (
+          <>
+            <h2 className={styles.h2}>There is no post</h2>
+            <h1 className={styles.h1}>
+              <Link to="/auth">LOG IN</Link> and be our first story teller.
+            </h1>
+          </>
+        )}
+      </div>
+    );
   }
 }
 

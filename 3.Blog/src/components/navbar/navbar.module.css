@@ -14,14 +14,14 @@ p {
   height: 60px;
 }
 
-.createPost {
+.createPostLink {
   margin-left: 50px;
+}
+
+.createPost {
+  font-size: 20px;
 }
 
 .auth {
   margin-left: auto;
-}
-
-.btn {
-  box-shadow: none;
 }
