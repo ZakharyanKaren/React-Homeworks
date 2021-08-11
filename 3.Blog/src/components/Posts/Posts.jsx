@@ -71,8 +71,9 @@ class Posts extends React.Component {
   }
 }
 
-export default (props) => {
+const PostsSection = (props) => {
   const classes = useStyles();
 
   return <Posts classes={classes} addPost={props.addPost} />;
 };
+export default PostsSection;

@@ -1,27 +1,32 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import styles from './blog.module.css';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 
 class Blog extends React.Component {
   render() {
-    const posts = JSON.parse(localStorage.getItem('posts'));
     return (
       <div className={styles.blogWrapper}>
-        {posts?.length ? (
+        {this.props.posts?.length ? (
           <div>
             <h1>POSTS:</h1>
             <div className={styles.postsWrapper}>
-              {posts.map((post) => {
+              {this.props.posts.map((post) => {
                 return (
-                  <div className={styles.postWrapper}>
+                  <div className={styles.postWrapper} key={post.id}>
                     <div>
-                      <div>
+                      <div className={styles.title}>
                         <p>{post.title}</p>
                       </div>
-                      <div>{post.description}</div>
-                      <div>
-                        <Link to="/auth">LEARN MORE</Link>
+                      <div className={styles.description}>
+                        {post.description}
+                      </div>
+                      <div className={styles.learnMore}>
+                        <Button
+                          onClick={() => this.props.onHandleEdit(post.id)}
+                        >
+                          LEARN MORE
+                        </Button>
                       </div>
                     </div>
                   </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './authentication.module.css';
 import { Button, TextField } from '@material-ui/core';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class Authentication extends React.Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class Authentication extends React.Component {
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
-    })
+    });
   }
 
   render() {
@@ -46,7 +45,12 @@ class Authentication extends React.Component {
             />
 
             <div className={styles.btnWrapper}>
-              <Button type="submit" variant="contained" color="primary" className={styles.btn}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={styles.btn}
+              >
                 Log in
               </Button>
             </div>

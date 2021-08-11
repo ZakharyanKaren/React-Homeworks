@@ -1,10 +1,11 @@
 import React from "react";
-import { withRouter, Route } from 'react-router-dom';
 import './App.css';
+import { withRouter, Route } from 'react-router-dom';
 import Blog from './components/blog/Blog';
 import Posts from './components/posts/Posts';
-import Authentication from './components/authentication/Authentication';
 import Navbar from './components/navbar/Navbar';
+import Authentication from './components/authentication/Authentication';
+import Post from './components/post/Post';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,22 +14,28 @@ class App extends React.Component {
     this.state = {
       users: [],
       posts: [],
-      isLoggedIn: localStorage.getItem('isLoggedIn')
-        ? localStorage.getItem('isLoggedIn')
-        : false,
+      isLoggedIn: false,
+      id: 0,
+      editPost: {},
     };
 
     this.submitForm = this.submitForm.bind(this);
     this.logInBtn = this.logInBtn.bind(this);
     this.addPost = this.addPost.bind(this);
+    this.onHandleEdit = this.onHandleEdit.bind(this);
   }
 
   componentDidMount() {
-    let usersJson = localStorage.getItem('users');
-    let users = JSON.parse(usersJson);
+    const users = JSON.parse(localStorage.getItem('users'));
+    const posts = JSON.parse(localStorage.getItem('posts'));
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
+    const id = JSON.parse(localStorage.getItem('id'));
 
     this.setState({
-      users: users ? users : [],
+      users: users ?? [],
+      posts: posts ?? [],
+      isLoggedIn: isLoggedIn === null ? false : isLoggedIn,
+      id: id && id,
     });
   }
 
@@ -36,12 +43,13 @@ class App extends React.Component {
     e.preventDefault();
 
     this.setState((prevState) => ({
-      users: [
+      users: prevState.users && [
         ...prevState.users,
         { name: e.target[0].value, pass: e.target[1].value },
       ],
       isLoggedIn: true,
     }));
+
     localStorage.setItem(
       'users',
       JSON.stringify([
@@ -49,7 +57,9 @@ class App extends React.Component {
         { name: e.target[0].value, pass: e.target[1].value },
       ])
     );
+
     localStorage.setItem('isLoggedIn', 'true');
+
     this.props.history.push('/');
   }
 
@@ -62,14 +72,31 @@ class App extends React.Component {
 
   addPost(title, description) {
     this.setState((prevState) => ({
-      posts: [...prevState.posts, { title, description }],
+      posts: [...prevState.posts, { title, description, id: prevState.id + 1 }],
+      id: prevState.id + 1,
     }));
+
     localStorage.setItem(
       'posts',
-      JSON.stringify([...this.state.posts, { title, description }])
+      JSON.stringify([
+        ...this.state.posts,
+        { title, description, id: this.state.id + 1 },
+      ])
     );
 
+    localStorage.setItem('id', JSON.stringify(this.state.id + 1));
+
     this.props.history.push('/');
+  }
+
+  onHandleEdit(index) {
+    const post = this.state.posts.find((el) => el.id === index);
+
+    this.setState({
+      editPost: post,
+    });
+
+    this.props.history.push(`/post/:${index}`);
   }
 
   render() {
@@ -77,13 +104,20 @@ class App extends React.Component {
       <div className="App">
         <Navbar isLoggedIn={this.state.isLoggedIn} logInBtn={this.logInBtn} />
         <Route exact path="/">
-          <Blog isLoggedIn={this.state.isLoggedIn} posts={this.state.posts} />
+          <Blog
+            isLoggedIn={this.state.isLoggedIn}
+            posts={this.state.posts}
+            onHandleEdit={this.onHandleEdit}
+          />
         </Route>
         <Route path="/posts">
           <Posts addPost={this.addPost} />
         </Route>
         <Route path="/auth">
           <Authentication formSubmitHandler={this.submitForm} />
+        </Route>
+        <Route path="/post/:id">
+          <Post post={this.state.editPost} />
         </Route>
       </div>
     );
