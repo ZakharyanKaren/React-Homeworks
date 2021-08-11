@@ -23,6 +23,8 @@ class App extends React.Component {
     this.logInBtn = this.logInBtn.bind(this);
     this.addPost = this.addPost.bind(this);
     this.onHandleEdit = this.onHandleEdit.bind(this);
+    this.editTask = this.editTask.bind(this);
+    this.onEditChange = this.onEditChange.bind(this);
   }
 
   componentDidMount() {
@@ -72,7 +74,7 @@ class App extends React.Component {
 
   addPost(title, description) {
     this.setState((prevState) => ({
-      posts: [...prevState.posts, { title, description, id: prevState.id + 1 }],
+      posts: [...prevState.posts, { title, description, id: prevState.id + 1, isEdit: false }],
       id: prevState.id + 1,
     }));
 
@@ -95,8 +97,34 @@ class App extends React.Component {
     this.setState({
       editPost: post,
     });
-
+    localStorage.setItem('post', JSON.stringify(post));
     this.props.history.push(`/post/:${index}`);
+  }
+
+  editTask(index) {
+    const currentPost = this.state.posts.map((post) => {
+      if (post.id === index) {
+        post.isEdit = true;
+      }
+      return post;
+    })
+
+    this.setState({
+      posts: currentPost,
+    })
+  }
+
+  onEditChange(e, index) {
+    const currentPost = this.state.posts.map((post) => {
+      if (post.id === index) {
+        post.description = e.target.value;
+      }
+      return post;
+    })
+
+    this.setState({
+      posts: currentPost,
+    })
   }
 
   render() {
@@ -117,7 +145,7 @@ class App extends React.Component {
           <Authentication formSubmitHandler={this.submitForm} />
         </Route>
         <Route path="/post/:id">
-          <Post post={this.state.editPost} />
+          <Post post={this.state.editPost} editTask={this.editTask} taskIndex={this.state.taskIndex}/>
         </Route>
       </div>
     );

@@ -4,21 +4,32 @@ import { Button } from '@material-ui/core';
 
 class Post extends React.Component {
   render() {
-    const post = this.props.post;
-    console.log(this.props.post);
+    const post = JSON.parse(localStorage.getItem('post'));
     return (
       <div className={styles.postSection}>
-        <h2>Post</h2>
+        <h1>Post</h1>
         <div className={styles.postWrapper}>
           <div className={styles.postWrapper2}>
             <div>
               <div className={styles.title}>
-                <p>{post.title}</p>
+                {this.props.isEdit === true ? (
+                  <input
+                    onEditChange={(e) => this.props.onEditChange(e, post.id)}
+                    value={post.description}
+                  />
+                ) : (
+                  <p>{post.title}</p>
+                )}
               </div>
               <div className={styles.description}>{post.description}</div>
               <div className={styles.buttons}>
-                <Button className={styles.editBtn}>EDIT</Button>
-                <Button className={styles.removeBtn}>REMOVE</Button>
+                <Button
+                  onClick={() => this.props.editTask(post.id)}
+                  className={styles.editBtn}
+                >
+                  Edit
+                </Button>
+                <Button className={styles.removeBtn}>Remove</Button>
                 <Button className={styles.saveBtn}>Save</Button>
               </div>
             </div>

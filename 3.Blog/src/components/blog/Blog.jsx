@@ -11,9 +11,9 @@ class Blog extends React.Component {
           <div>
             <h1>POSTS:</h1>
             <div className={styles.postsWrapper}>
-              {this.props.posts.map((post) => {
+              {this.props.posts.map((post, index) => {
                 return (
-                  <div className={styles.postWrapper} key={post.id}>
+                  <div className={styles.postWrapper} key={index}>
                     <div>
                       <div className={styles.title}>
                         <p>{post.title}</p>
@@ -22,9 +22,7 @@ class Blog extends React.Component {
                         {post.description}
                       </div>
                       <div className={styles.learnMore}>
-                        <Button
-                          onClick={() => this.props.onHandleEdit(post.id)}
-                        >
+                        <Button onClick={() => this.props.onHandleEdit(index)}>
                           LEARN MORE
                         </Button>
                       </div>
