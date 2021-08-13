@@ -22,7 +22,7 @@ class Blog extends React.Component {
                         {post.description}
                       </div>
                       <div className={styles.learnMore}>
-                        <Button onClick={() => this.props.onHandleEdit(index)}>
+                        <Button onClick={() => this.props.learnMore(index)}>
                           LEARN MORE
                         </Button>
                       </div>

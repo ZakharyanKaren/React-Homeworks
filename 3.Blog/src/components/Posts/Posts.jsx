@@ -35,7 +35,7 @@ class Posts extends React.Component {
   render() {
     const { addPost } = this.props;
     const { classes } = this.props;
-
+    
     return (
       <div className={styles.postComponent}>
         <div className={styles.createPostWrapper}>

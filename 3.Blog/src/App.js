@@ -15,52 +15,57 @@ class App extends React.Component {
       users: [],
       posts: [],
       isLoggedIn: false,
-      id: 0,
-      editPost: {},
     };
 
     this.submitForm = this.submitForm.bind(this);
     this.logInBtn = this.logInBtn.bind(this);
     this.addPost = this.addPost.bind(this);
-    this.onHandleEdit = this.onHandleEdit.bind(this);
+    this.learnMore = this.learnMore.bind(this);
     this.editTask = this.editTask.bind(this);
-    this.onEditChange = this.onEditChange.bind(this);
+    this.savePost = this.savePost.bind(this);
+    this.removePost = this.removePost.bind(this);
   }
 
   componentDidMount() {
     const users = JSON.parse(localStorage.getItem('users'));
     const posts = JSON.parse(localStorage.getItem('posts'));
     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
-    const id = JSON.parse(localStorage.getItem('id'));
-
+    
     this.setState({
       users: users ?? [],
       posts: posts ?? [],
       isLoggedIn: isLoggedIn === null ? false : isLoggedIn,
-      id: id && id,
     });
   }
 
   submitForm(e) {
     e.preventDefault();
 
-    this.setState((prevState) => ({
-      users: prevState.users && [
-        ...prevState.users,
-        { name: e.target[0].value, pass: e.target[1].value },
-      ],
-      isLoggedIn: true,
-    }));
+    const allUsers = this.state.users;
+    const name = e.target[0].value;
+    const pass = e.target[1].value;
 
-    localStorage.setItem(
-      'users',
-      JSON.stringify([
-        ...this.state.users,
-        { name: e.target[0].value, pass: e.target[1].value },
-      ])
-    );
+    const oldUser = allUsers.find((user) => {
+      return user.name === name && user.pass === pass;
+    });
 
-    localStorage.setItem('isLoggedIn', 'true');
+    if(oldUser) {
+      this.setState({
+        isLoggedIn: {id: oldUser.id, name: oldUser.name, pass: oldUser.pass},
+      })
+
+      localStorage.setItem('isLoggedIn', JSON.stringify({id: oldUser.id, name: oldUser.name, pass: oldUser.pass}));
+    } else {
+      const id = Math.random(3) + '' + Date.now();
+
+      this.setState((prevState) => ({
+        users: [...prevState.users, { id, name, pass }],
+        isLoggedIn: {id, name, pass},
+      }));
+
+      localStorage.setItem('users', JSON.stringify([...this.state.users, { id, name, pass }]));
+      localStorage.setItem('isLoggedIn', JSON.stringify({id, name, pass}));
+    }
 
     this.props.history.push('/');
   }
@@ -73,58 +78,60 @@ class App extends React.Component {
   }
 
   addPost(title, description) {
+    const id = Math.random(3) + '' + Date.now();
+    let user = JSON.parse(localStorage.getItem('isLoggedIn'));
+    const userId = user.id;
+    user = { id, title, description, isEdit: false, userId };
+
     this.setState((prevState) => ({
-      posts: [...prevState.posts, { title, description, id: prevState.id + 1, isEdit: false }],
-      id: prevState.id + 1,
+      posts: [...prevState.posts, user ],
     }));
 
-    localStorage.setItem(
-      'posts',
-      JSON.stringify([
-        ...this.state.posts,
-        { title, description, id: this.state.id + 1 },
-      ])
-    );
-
-    localStorage.setItem('id', JSON.stringify(this.state.id + 1));
+    localStorage.setItem('posts', JSON.stringify([...this.state.posts, user]));
 
     this.props.history.push('/');
   }
 
-  onHandleEdit(index) {
-    const post = this.state.posts.find((el) => el.id === index);
+  learnMore(index) {
+    this.props.history.push(`/post/${index}`);
+  }
 
-    this.setState({
-      editPost: post,
+  editTask(post, id) {
+    const posts = this.state.posts;
+
+    posts.forEach((post) => {
+      post.isEdit = false;
     });
-    localStorage.setItem('post', JSON.stringify(post));
-    this.props.history.push(`/post/:${index}`);
+
+    post.isEdit = true;
+    posts[id] = post;
+
+    this.setState({ posts });
+
+    localStorage.setItem('posts', JSON.stringify(posts));
   }
 
-  editTask(index) {
-    const currentPost = this.state.posts.map((post) => {
-      if (post.id === index) {
-        post.isEdit = true;
-      }
-      return post;
-    })
+  savePost(post, id, description) {
+    const posts = this.state.posts;
+    post.description = description;
+    post.isEdit = false;
 
-    this.setState({
-      posts: currentPost,
-    })
+    posts[id] = post;
+
+    this.setState({ posts });
+
+    localStorage.setItem('posts', JSON.stringify(posts));
   }
 
-  onEditChange(e, index) {
-    const currentPost = this.state.posts.map((post) => {
-      if (post.id === index) {
-        post.description = e.target.value;
-      }
-      return post;
-    })
+  removePost(post, id) {
+    const posts = this.state.posts;
+    posts.splice(id, 1);
 
-    this.setState({
-      posts: currentPost,
-    })
+    this.setState({ posts });
+
+    localStorage.setItem('posts', JSON.stringify(posts));
+
+    this.props.history.push('/');
   }
 
   render() {
@@ -135,17 +142,17 @@ class App extends React.Component {
           <Blog
             isLoggedIn={this.state.isLoggedIn}
             posts={this.state.posts}
-            onHandleEdit={this.onHandleEdit}
+            learnMore={this.learnMore}
           />
         </Route>
-        <Route path="/posts">
+        <Route exact path="/posts">
           <Posts addPost={this.addPost} />
         </Route>
-        <Route path="/auth">
+        <Route exact path="/auth">
           <Authentication formSubmitHandler={this.submitForm} />
         </Route>
-        <Route path="/post/:id">
-          <Post post={this.state.editPost} editTask={this.editTask} taskIndex={this.state.taskIndex}/>
+        <Route path={`/post/:id`}>
+          <Post allPosts={this.state.posts} editTask={this.editTask} onEditChange={this.onEditChange} savePost={this.savePost} removePost={this.removePost} />
         </Route>
       </div>
     );
