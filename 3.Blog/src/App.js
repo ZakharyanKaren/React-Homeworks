@@ -1,19 +1,27 @@
 import React from "react";
 import './App.css';
 import { withRouter, Route } from 'react-router-dom';
-import Blog from './components/blog/Blog';
-import Posts from './components/posts/Posts';
-import Navbar from './components/navbar/Navbar';
-import Authentication from './components/authentication/Authentication';
-import Post from './components/post/Post';
+import Blog from './components/Blog/Blog';
+import Posts from './components/Posts/Posts';
+import Navbar from './components/Navbar/Navbar';
+import Authentication from './components/Authentication/Authentication';
+import Post from './components/Post/Post';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
+    let allComments = [];
+
+    const comments = localStorage.getItem('comments');
+    if(comments !== null) {
+      allComments = JSON.parse(comments);
+    }
+
     this.state = {
       users: [],
       posts: [],
+      comments: allComments,
       isLoggedIn: false,
     };
 
@@ -24,6 +32,7 @@ class App extends React.Component {
     this.editTask = this.editTask.bind(this);
     this.savePost = this.savePost.bind(this);
     this.removePost = this.removePost.bind(this);
+    this.addComment = this.addComment.bind(this);
   }
 
   componentDidMount() {
@@ -71,17 +80,20 @@ class App extends React.Component {
   }
 
   logInBtn() {
-    this.setState({
+    if(this.state.isLoggedIn) {
+      this.setState({
       isLoggedIn: false,
     });
+
     localStorage.setItem('isLoggedIn', false);
+    }
   }
 
-  addPost(title, description) {
+  addPost(title, description, comments) {
     const id = Math.random(3) + '' + Date.now();
     let user = JSON.parse(localStorage.getItem('isLoggedIn'));
     const userId = user.id;
-    user = { id, title, description, isEdit: false, userId };
+    user = { id, title, description, comments, isEdit: false, userId };
 
     this.setState((prevState) => ({
       posts: [...prevState.posts, user ],
@@ -134,6 +146,21 @@ class App extends React.Component {
     this.props.history.push('/');
   }
 
+  addComment(comment, postId) {
+    let comments = this.state.comments;
+
+    const commentIndex = comments.findIndex(comment => comment.postId === postId);
+    if (commentIndex === -1) {
+      comments = [...comments, {postId, comments: [comment]}];
+    } else {
+      comments[commentIndex].comments.push(comment);
+    }
+    
+    this.setState({comments});
+
+    localStorage.setItem('comments', JSON.stringify(comments));
+  }
+
   render() {
     return (
       <div className="App">
@@ -152,7 +179,7 @@ class App extends React.Component {
           <Authentication formSubmitHandler={this.submitForm} />
         </Route>
         <Route path={`/post/:id`}>
-          <Post allPosts={this.state.posts} editTask={this.editTask} onEditChange={this.onEditChange} savePost={this.savePost} removePost={this.removePost} />
+          <Post allPosts={this.state.posts} comments={this.state.comments} editTask={this.editTask} onEditChange={this.onEditChange} savePost={this.savePost} removePost={this.removePost} addComment={this.addComment} />
         </Route>
       </div>
     );

@@ -1,3 +1,7 @@
+.postHeader {
+    margin-top: 20px;
+}
+
 .postSection {
     text-align: center;
     margin-top: 50px;
@@ -27,4 +31,27 @@
     text-align: right;
     margin-right: 50px;
     margin-top: 20px;
+}
+
+.comments {
+    margin-top: 50px;
+}
+
+.submitComm {
+    margin-left: 10px
+}
+
+.commentsWrapper {
+    margin-top: 10px;
+}
+
+.commentUl {
+    list-style-type: none;
+}
+
+.commentUl li {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 10px;
 }

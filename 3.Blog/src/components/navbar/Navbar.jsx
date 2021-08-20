@@ -11,16 +11,18 @@ class Navbar extends React.Component {
   }
 
   render() {
+    const BLOG = 'BLOG';
+    const CREATE_POST = 'Create post';
     const logInText = this.props.isLoggedIn ? 'LOG OUT' : 'LOG IN';
     return (
       <header className={styles.header}>
         <div className={styles.div}>
           <Link to="/">
-            <h2>Blog</h2>
+            <h2>{BLOG}</h2>
           </Link>
           <Link to={this.props.isLoggedIn ? '/posts' : '/auth'} className={styles.createPostLink}>
             <span color="primary" className={styles.createPost}>
-              Create post
+              {CREATE_POST}
             </span>
           </Link>
           <Link to="/auth" className={styles.auth}>

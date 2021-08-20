@@ -7,24 +7,30 @@ class Post extends React.Component {
     super(props);
 
     this.state = {
-      description: '',
+      postDesc: '',
+      commentDesc: '',
       id: this.props.match.params.id,
+      postComments: [],
     }
+    
     this.onEditChange = this.onEditChange.bind(this);
   }
 
   componentDidMount() {
     const posts = JSON.parse(localStorage.getItem('posts'));
     const post = posts[this.state.id];
-
+    
     this.setState({
-      description: post.description,
+      postDesc: post.description,
+      commentDesc: post.commentDesc,
     })
   }
 
   onEditChange(e) {
+    const name = e.target.name;
+
     this.setState({
-      description: e.target.value,
+      [name]: e.target.value,
     })
   }
 
@@ -34,10 +40,26 @@ class Post extends React.Component {
     const post = posts[id];
 
     const user = JSON.parse(localStorage.getItem('isLoggedIn'));
-console.log(post.userId, user.id);
+
+    const postObject = this.props.comments.find((comment) => {
+      return comment.postId === post.id;
+    });
+
+    let postComments = '';
+    
+    if(postObject) {
+      postComments = postObject.comments.map((comment) => {
+        return (
+          <li>
+           {comment}
+          </li>
+        )
+      })
+    }
+
     return (
       <div className={styles.postSection}>
-        <h1>Post</h1>
+        <h1 className={styles.postHeader}>Post</h1>
         <div className={styles.postWrapper}>
           <div className={styles.postWrapper2}>
             <div>
@@ -48,7 +70,8 @@ console.log(post.userId, user.id);
                 {post.isEdit === true ? (
                   <input
                     onChange={this.onEditChange}
-                    value={this.state.description}
+                    value={this.state.postDesc}
+                    name='postDesc'
                   />
                 ) : (<p>{post.description}</p>)}
                 
@@ -66,6 +89,17 @@ console.log(post.userId, user.id);
               </div>
             </div>
           </div>
+        </div>
+
+        <h2 className={styles.comments}>Comments</h2>
+        <div className={styles.commentsWrapper}>
+          <div>
+            <input onChange={this.onEditChange} value={this.state.commentDesc} name='commentDesc' />
+            <button onClick={() => this.props.addComment(this.state.commentDesc, post.id)} className={styles.submitComm}>Submit</button>
+          </div>
+          <ul className={styles.commentUl}>
+            {postComments}
+          </ul>
         </div>
       </div>
     );
